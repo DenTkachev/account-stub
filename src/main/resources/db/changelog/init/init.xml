@@ -127,4 +127,49 @@
         <addPrimaryKey schemaName="ad" tableName="users_groups" columnNames="user_id, group_id"/>
     </changeSet>
 
+    <changeSet id="create-dict-status-id-seq" author="tkachev">
+        <createSequence sequenceName="status_id_seq" schemaName="dict"/>
+    </changeSet>
+
+    <changeSet id="create-dict-status-table" author="tkachev">
+        <createTable tableName="status" schemaName="dict">
+            <column name="id" type="integer" defaultValueComputed="nextval('dict.status_id_seq')">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-bank-transactions-id-seq" author="tkachev">
+        <createSequence sequenceName="transaction_id_seq" schemaName="bank"/>
+    </changeSet>
+
+    <changeSet id="create-bank-transactions-table" author="tkachev">
+        <createTable tableName="transactions" schemaName="bank">
+            <column name="id" type="integer" defaultValueComputed="nextval('bank.transaction_id_seq')">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="source_bank_book_id" type="integer">
+                <constraints nullable="false" foreignKeyName="source_bank_book_fkey" references="bank.bank_book(id)"/>
+            </column>
+            <column name="target_bank_book_id" type="integer">
+                <constraints nullable="false" foreignKeyName="target_bank_book_fkey" references="bank.bank_book(id)"/>
+            </column>
+            <column name="amount" type="numeric">
+                <constraints nullable="false"/>
+            </column>
+            <column name="initiation_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="complete_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status_id" type="integer">
+                <constraints nullable="false" foreignKeyName="status_fkey" references="dict.status(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>

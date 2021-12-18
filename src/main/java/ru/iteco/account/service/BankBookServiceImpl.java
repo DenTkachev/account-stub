@@ -51,6 +51,13 @@ class BankBookServiceImpl implements BankBookService {
     }
 
     @Override
+    public BankBookDto findByUserIdAndCurrency(Integer userId, String currency) {
+        CurrencyEntity currencyEntity = currencyRepository.findByName(currency);
+        return bankBookMapper.mapToDto(bankBookRepository.findByUserIdAndCurrency(userId, currencyEntity)
+                .orElseThrow(() -> new BankBookNotFoundException("Для данного пользователя нет счетов в данной валюте")));
+    }
+
+    @Override
     public BankBookDto create(BankBookDto bankBookDto) {
         CurrencyEntity currency = currencyRepository.findByName(bankBookDto.getCurrency());
         Optional<BankBookEntity> bankBookEntityOpt = bankBookRepository.findByUserIdAndNumberAndCurrency(

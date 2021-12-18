@@ -10,7 +10,11 @@ import java.util.Optional;
 public interface BankBookRepository extends JpaRepository<BankBookEntity, Integer> {
 
     List<BankBookEntity> findAllByUserId(Integer userId);
+
     Optional<BankBookEntity> findByUserIdAndNumberAndCurrency(Integer userId, String number, CurrencyEntity currency);
+
+    Optional<BankBookEntity> findByUserIdAndCurrency(Integer userId, CurrencyEntity currency);
+
     void deleteAllByUserId(Integer userId);
 
 }
