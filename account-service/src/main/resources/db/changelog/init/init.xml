@@ -163,9 +163,7 @@
             <column name="initiation_date" type="timestamp">
                 <constraints nullable="false"/>
             </column>
-            <column name="complete_date" type="timestamp">
-                <constraints nullable="false"/>
-            </column>
+            <column name="complete_date" type="timestamp"/>
             <column name="status_id" type="integer">
                 <constraints nullable="false" foreignKeyName="status_fkey" references="dict.status(id)"/>
             </column>

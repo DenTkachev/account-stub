@@ -78,6 +78,10 @@ public class TransactionServiceImpl implements TransactionService{
              update(transaction);
              throw new TransactionErrorException("Нельзя совершать перевод между счетами с разной валютой.");
          }
+         source.setAmount(source.getAmount().subtract(sendAmount));
+         target.setAmount(target.getAmount().add(sendAmount));
+         bankBookService.update(source);
+         bankBookService.update(target);
          transaction.setStatus(StatusEnum.SUCCESSFUL.name());
          transaction.setCompleteDate(LocalDateTime.now());
          update(transaction);
